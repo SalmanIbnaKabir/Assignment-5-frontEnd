@@ -1,5 +1,10 @@
 import { useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
+import { useSignupMutation } from "../redux/features/user/userApi";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 
@@ -13,10 +18,30 @@ interface SignupFormInputs {
 export default function Signup() {
   const { register, handleSubmit, formState: { errors } } = useForm<SignupFormInputs>();
 
+  const navigate = useNavigate()
 
+  const [login, { isLoading, isError, isSuccess }
+  ] = useSignupMutation()
+  // console.log(isLoading)
+  // console.log(isError)
+  // console.log(isSuccess)
 
   const handleSignup = (data: SignupFormInputs) => {
-    console.log(data)
+    // console.log()
+    login(data).unwrap()
+      .then((payload) => {
+        toast.success(payload.data.message);
+        if (isSuccess) {
+          navigate('/login')
+        }
+        console.log(payload)
+      })
+      .catch((error) => {
+        toast.error(error.data.message)
+        console.log(error)
+      })
+
+
 
   }
   return (
@@ -69,10 +94,14 @@ export default function Signup() {
 
 
 
-            <input type="submit" className='btn btn-info w-full mt-5' value='sign up' />
+            <input type="submit" disabled={isLoading} className='btn btn-info w-full mt-5' value='sign up' />
 
           </form>
           <p>Already have an account  ? <Link className='text-secondary text-sm' to='/login'> Please Login</Link></p>
+
+
+
+          <Toaster />
 
 
 
