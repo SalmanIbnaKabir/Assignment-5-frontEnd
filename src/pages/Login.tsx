@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-
+import toast, { Toaster } from 'react-hot-toast';
+import { useLoginMutation } from '../redux/features/user/userApi';
+import { useNavigate } from 'react-router-dom'
 
 interface LoginFormInputs {
   email: string;
@@ -15,9 +17,23 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  const navigate = useNavigate()
+  const [login, { isLoading, isError, isSuccess }] = useLoginMutation()
 
   const handleLogin = (data: LoginFormInputs) => {
-    console.log(data)
+    login(data).unwrap()
+      .then((payload) => {
+        toast.success(payload.message);
+        if (isSuccess) {
+          navigate('/')
+        }
+        console.log(payload)
+      })
+      .catch((error) => {
+        toast.error(error.data.message)
+        console.log(error)
+      })
+
   }
 
 
@@ -49,11 +65,12 @@ export default function Login() {
             <label className="label"><span className="label-text">Forget Password ?</span></label>
           </div>
 
-          <input type="submit" className='btn  btn-info w-full' value='Login' />
+          <input type="submit" disabled={isLoading} className='btn  btn-info w-full' value='Login' />
           <div>
             <p>Don't  have an account  ? <Link className='text-secondary text-sm' to='/signup'> Please SignUp</Link></p>
           </div>
         </form>
+        <Toaster />
 
       </div>
     </div>

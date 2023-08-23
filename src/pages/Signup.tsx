@@ -20,7 +20,7 @@ export default function Signup() {
 
   const navigate = useNavigate()
 
-  const [login, { isLoading, isError, isSuccess }
+  const [signup, { isLoading, isSuccess }
   ] = useSignupMutation()
   // console.log(isLoading)
   // console.log(isError)
@@ -28,9 +28,9 @@ export default function Signup() {
 
   const handleSignup = (data: SignupFormInputs) => {
     // console.log()
-    login(data).unwrap()
+    signup(data).unwrap()
       .then((payload) => {
-        toast.success(payload.data.message);
+        toast.success(payload.message);
         if (isSuccess) {
           navigate('/login')
         }
