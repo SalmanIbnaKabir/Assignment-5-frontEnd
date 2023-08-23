@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLoginMutation } from '../redux/features/user/userApi';
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../redux/hook';
+import { setUser } from '../redux/features/user/userSlice';
 
 interface LoginFormInputs {
   email: string;
@@ -15,22 +17,32 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LoginFormInputs>();
 
   const navigate = useNavigate()
-  const [login, { isLoading, isError, isSuccess }] = useLoginMutation()
+  const [login, { isLoading, }] = useLoginMutation()
+  const dispatch = useAppDispatch()
 
   const handleLogin = (data: LoginFormInputs) => {
     login(data).unwrap()
       .then((payload) => {
         toast.success(payload.message);
-        if (isSuccess) {
+
+        console.log(payload)
+        if (payload.success) {
+          const userData = {
+            email: payload.data.email,
+          }
+          localStorage.setItem('userData', JSON.stringify(userData)); // Store user data
+          dispatch(setUser(payload?.data?.email))
+          reset();
           navigate('/')
         }
-        console.log(payload)
       })
       .catch((error) => {
         toast.error(error.data.message)
+        reset()
         console.log(error)
       })
 

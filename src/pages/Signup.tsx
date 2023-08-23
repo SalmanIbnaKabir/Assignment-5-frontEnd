@@ -16,11 +16,11 @@ interface SignupFormInputs {
 }
 
 export default function Signup() {
-  const { register, handleSubmit, formState: { errors } } = useForm<SignupFormInputs>();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<SignupFormInputs>();
 
   const navigate = useNavigate()
 
-  const [signup, { isLoading, isSuccess }
+  const [signup, { isLoading, }
   ] = useSignupMutation()
   // console.log(isLoading)
   // console.log(isError)
@@ -31,13 +31,13 @@ export default function Signup() {
     signup(data).unwrap()
       .then((payload) => {
         toast.success(payload.message);
-        if (isSuccess) {
-          navigate('/login')
-        }
+        reset()
+        navigate('/login')
         console.log(payload)
       })
       .catch((error) => {
         toast.error(error.data.message)
+        reset()
         console.log(error)
       })
 

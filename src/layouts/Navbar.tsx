@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { useAppSelector } from "../redux/hook"
 
 export default function Navbar() {
+  const { user } = useAppSelector(state => state.user)
+  // console.log(user)
   return (
     <div className="navbar container m-auto bg-base-100 border-b-2 border-indigo-200">
       <div className="flex-1">
@@ -24,13 +27,19 @@ export default function Navbar() {
           <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
             <li>
               <a className="justify-between">
-                Profile
+                Add a Book
                 <span className="badge">New</span>
               </a>
             </li>
-            <li><Link to='/login'>Login</Link></li>
-            <li><Link to='/signup'>SignUp</Link></li>
-            <li><a>Logout</a></li>
+            {
+              !user?.email && <>
+                <li><Link to='/login'>Login</Link></li>
+                <li><Link to='/signup'>SignUp</Link></li>
+              </>
+            }
+            {
+              user?.email && <li><a>Logout</a></li>
+            }
           </ul>
         </div>
       </div>
