@@ -2,30 +2,33 @@ import { useForm } from 'react-hook-form'
 import toast, { Toaster } from 'react-hot-toast';
 import { useAppSelector } from '../redux/hook';
 import { useCreateBookMutation } from '../redux/features/book/bookApi';
+import { useNavigate } from 'react-router-dom';
 
 
-interface IAddBook {
-  title: string;
-  author: string;
-  genre: string;
-  publicationDate: string;
-  owner: string;
-}
+// interface IAddBook {
+//   title: string;
+//   author: string;
+//   genre: string;
+//   publicationDate: string;
+//   owner: string;
+// }
 
 
 export default function AddNewBook() {
 
   const { user } = useAppSelector(state => state.user)
   // console.log(user.email)
+  const navigate = useNavigate()
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm()
   const [createBook, { isLoading }] = useCreateBookMutation()
 
 
-  const handleAddNewBook = (data) => {
+  const handleAddNewBook = (data: unknown) => {
     createBook(data).unwrap()
       .then((payload) => {
         toast.success(payload.message);
+        navigate('/')
         reset()
       })
       .catch((error) => {

@@ -33,12 +33,12 @@ export default function Signup() {
         toast.success(payload.message);
         reset()
         navigate('/login')
-        console.log(payload)
+        // console.log(payload)
       })
       .catch((error) => {
         toast.error(error.data.message)
         reset()
-        console.log(error)
+        // console.log(error)
       })
 
 

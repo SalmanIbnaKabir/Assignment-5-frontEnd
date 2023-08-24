@@ -28,6 +28,18 @@ const bookApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    getComment: builder.query({
+      query: (id) => `/book/comment/${id}`,
+      providesTags: ["comments"],
+    }),
+    postComment: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/book/comment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["comments"],
+    }),
   }),
 });
 
@@ -37,4 +49,6 @@ export const {
   useDeleteBookMutation,
   useUpdateBookMutation,
   useCreateBookMutation,
+  useGetCommentQuery,
+  usePostCommentMutation,
 } = bookApi;

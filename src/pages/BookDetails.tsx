@@ -1,9 +1,12 @@
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useDeleteBookMutation, useSingleBookQuery } from '../redux/features/book/bookApi'
 import toast, { Toaster } from 'react-hot-toast'
+import { useAppSelector } from '../redux/hook';
+import BookReview from '../components/BookReview';
 
 export default function BookDetails() {
   const { id, } = useParams()
+  const { user } = useAppSelector(state => state.user)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, isLoading } = useSingleBookQuery(id)
   const [deleteBook, { isError, isSuccess }] = useDeleteBookMutation()
@@ -21,7 +24,7 @@ export default function BookDetails() {
         .catch((error) => {
           toast.error(error.data.message)
 
-          console.log(error)
+          // console.log(error)
         })
     }
   }
@@ -37,14 +40,17 @@ export default function BookDetails() {
             <p>Genre: {data?.data?.genre}</p>
             <p>Publication Date:{data?.data?.publicationDate} </p>
           </div>
-          <div className="card-actions justify-end">
-            <Link to={`/book-update/${data?.data?._id}`}>  <button className="btn btn-primary">Update</button> </Link>
+          {
+            user?.email === data?.data?.owner && <div className="card-actions justify-end">
+              <Link to={`/book-update/${data?.data?._id}`}>  <button className="btn btn-primary">Update</button> </Link>
 
-            <button className="btn btn-primary" onClick={() => { handleDelete(data?.data?._id) }}>Delete</button>
-          </div>
+              <button className="btn btn-primary" onClick={() => { handleDelete(data?.data?._id) }}>Delete</button>
+            </div>
+          }
         </div>
       </div>
       <Toaster />
+      <BookReview id={data?.data?._id} />
 
     </div>
   )

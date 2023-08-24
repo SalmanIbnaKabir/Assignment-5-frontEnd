@@ -9,6 +9,7 @@ import NotFound from '../pages/NotFound';
 import UpdateBook from '../pages/UpdateBook';
 import AddNewBook from '../pages/AddNewBook';
 import AllBookPage from '../pages/AllBookPage';
+import PrivateRoute from './PrivateRoute';
 
 const routes = createBrowserRouter([
   {
@@ -29,11 +30,13 @@ const routes = createBrowserRouter([
       },
       {
         path: "/book-update/:id",
-        element: <UpdateBook />
+        element: <PrivateRoute><UpdateBook /></PrivateRoute>
       },
       {
         path: "/add-new-book",
-        element: <AddNewBook />
+        element: <PrivateRoute>
+          <AddNewBook />
+        </PrivateRoute>
       }
     ]
   },

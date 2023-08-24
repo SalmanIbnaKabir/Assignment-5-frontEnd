@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useLoginMutation } from '../redux/features/user/userApi';
 import { useNavigate } from 'react-router-dom'
@@ -21,6 +21,8 @@ export default function Login() {
   } = useForm<LoginFormInputs>();
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
   const [login, { isLoading, }] = useLoginMutation()
   const dispatch = useAppDispatch()
 
@@ -29,7 +31,7 @@ export default function Login() {
       .then((payload) => {
         toast.success(payload.message);
 
-        console.log(payload)
+        // console.log(payload)
         if (payload.success) {
           const userData = {
             email: payload.data.email,
@@ -37,13 +39,13 @@ export default function Login() {
           localStorage.setItem('userData', JSON.stringify(userData)); // Store user data
           dispatch(setUser(payload?.data?.email))
           reset();
-          navigate('/')
+          navigate(from, { replace: true })
         }
       })
       .catch((error) => {
         toast.error(error.data.message)
         reset()
-        console.log(error)
+        // console.log(error)
       })
 
   }

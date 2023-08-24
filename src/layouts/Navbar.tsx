@@ -25,7 +25,7 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="form-control">
-          <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
+          <Link to='/all-books' className="pe-8 text-blue-500 font-medium ">All Book </Link>
         </div>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
