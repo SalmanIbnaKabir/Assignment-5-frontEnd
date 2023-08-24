@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom"
-import { useAppSelector } from "../redux/hook"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../redux/hook"
+import { setUser } from "../redux/features/user/userSlice";
 
 export default function Navbar() {
-  const { user } = useAppSelector(state => state.user)
+  const { user } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch()
   // console.log(user)
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    dispatch(setUser(null))
+    navigate('/login')
+  }
   return (
     <div className="navbar container m-auto bg-base-100 border-b-2 border-indigo-200">
       <div className="flex-1">
@@ -38,7 +47,7 @@ export default function Navbar() {
               </>
             }
             {
-              user?.email && <li><a>Logout</a></li>
+              user?.email && <li onClick={handleLogout}><a>Logout</a></li>
             }
           </ul>
         </div>
