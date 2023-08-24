@@ -35,10 +35,10 @@ export default function Navbar() {
           </label>
           <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
             <li>
-              <a className="justify-between">
+              <Link to="/add-new-book" className="justify-between">
                 Add a Book
                 <span className="badge">New</span>
-              </a>
+              </Link>
             </li>
             {
               !user?.email && <>

@@ -3,7 +3,7 @@ import { useDeleteBookMutation, useSingleBookQuery } from '../redux/features/boo
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function BookDetails() {
-  const { id } = useParams()
+  const { id, } = useParams()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, isLoading } = useSingleBookQuery(id)
   const [deleteBook, { isError, isSuccess }] = useDeleteBookMutation()
