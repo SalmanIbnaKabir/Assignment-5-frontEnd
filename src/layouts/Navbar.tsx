@@ -40,6 +40,10 @@ export default function Navbar() {
                 <span className="badge">New</span>
               </Link>
             </li>
+
+            <li>
+              <Link to='/all-books'>All Book </Link>
+            </li>
             {
               !user?.email && <>
                 <li><Link to='/login'>Login</Link></li>

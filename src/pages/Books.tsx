@@ -24,10 +24,13 @@ export default function Books() {
   const top10Books = sortedBooks.slice(0, 10);
 
   return (
-    <div className="text-red-500 grid lg:grid-cols-3 gap-10 md:grid-cols-2 grid-cols-1 pb-20 ">
+
+    <div className=" grid lg:grid-cols-3 gap-10 md:grid-cols-2 grid-cols-1 pb-20 ">
       {top10Books.map((book: IBook) => (
         <BookCard bookData={book} key={book._id} />
       ))}
     </div>
+
+
   );
 }

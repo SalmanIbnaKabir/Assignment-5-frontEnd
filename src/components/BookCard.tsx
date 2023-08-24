@@ -14,7 +14,7 @@ export default function BookCard({ bookData }: IBook) {
           <p>Publication Date: {bookData.publicationDate}</p>
         </div>
         <div className="card-actions justify-end mt-5">
-          <Link to={`book-details/${bookData._id}`}>
+          <Link to={`/book-details/${bookData._id}`}>
 
             <button className="btn btn-primary">Details</button>
           </Link>
