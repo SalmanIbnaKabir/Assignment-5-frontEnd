@@ -1,12 +1,11 @@
-
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useDeleteBookMutation, useSingleBookQuery } from '../redux/features/book/bookApi'
 import toast, { Toaster } from 'react-hot-toast'
 
 export default function BookDetails() {
   const { id } = useParams()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, isLoading, error } = useSingleBookQuery(id)
+  const { data, isLoading } = useSingleBookQuery(id)
   const [deleteBook, { isError, isSuccess }] = useDeleteBookMutation()
   console.log(isLoading, isError, isSuccess)
   const navigate = useNavigate()
@@ -39,7 +38,8 @@ export default function BookDetails() {
             <p>Publication Date:{data?.data?.publicationDate} </p>
           </div>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary">Update</button>
+            <Link to={`/book-update/${data?.data?._id}`}>  <button className="btn btn-primary">Update</button> </Link>
+
             <button className="btn btn-primary" onClick={() => { handleDelete(data?.data?._id) }}>Delete</button>
           </div>
         </div>

@@ -14,8 +14,19 @@ const bookApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    updateBook: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/book/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useSingleBookQuery, useDeleteBookMutation } =
-  bookApi;
+export const {
+  useGetBooksQuery,
+  useSingleBookQuery,
+  useDeleteBookMutation,
+  useUpdateBookMutation,
+} = bookApi;

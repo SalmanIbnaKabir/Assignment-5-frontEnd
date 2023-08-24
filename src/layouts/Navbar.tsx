@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <div className="navbar container m-auto bg-base-100 border-b-2 border-indigo-200">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl text-blue-500">Book Store</a>
+        <Link to='/' className="btn btn-ghost normal-case text-xl text-blue-500">Book Store</Link>
       </div>
       <div className="flex-none gap-2">
         <div>
